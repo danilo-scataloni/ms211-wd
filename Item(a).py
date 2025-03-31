@@ -1,16 +1,11 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import math
-import sympy as sp
-
 # Definindo as funções
 def f(x):
     return 1 / x  # Função f(x) = 1/x
 def g(x):
     return 1 + np.power(x, 3)  # Função g(x) = 1 + x^3
-
-
-
 # Função h(x) = f(x) - g(x) para encontrar a interseção entre f(x) e g(x)
 def h(x):
     return f(x) - g(x) # Função h(x) = f(x) - g(x)  
@@ -18,17 +13,21 @@ def h(x):
 # Derivada de h(x)
 def dh(x):
     return (-1 / np.power(x, 2)) - 3 * np.power(x, 2)  # Derivada de h(x)
+#Valor Inicial
+x0 = 2  # Valor inicial (positivo)
 
 # Método de Newton-Raphson para encontrar a interseção
 def newton_raphson(h, dh, x0, eps1, eps2, maxiter):
     iter = 0
     lista = [x0]  # Lista para armazenar os pontos
-    print(f"Iteração {iter}: x = {x0:.5f}, f(x) = {f(x0):.5f}, g(x) = {g(x0):.5f}, e h(x) = {h(x0):.5f}")
+    print("Tabela de Resultados:")
+    print(f"Valor Inicial:",x0)
+    print(f"Iteração {iter}: x = {x0:.5f} | f(x) = {f(x0):.5f} | g(x) = {g(x0):.5f} |  h(x) = {h(x0):.5f}")
     while iter <= maxiter:
         xk = x0 - h(x0) / dh(x0)  # Fórmula de Newton-Raphson
         lista.append(xk)
         iter += 1
-        print(f"Iteração {iter}: x = {xk:.5f}, f(x) = {f(xk):.5f}, g(x) = {g(x0):.5f}, e h(x) = {h(xk):.5f}")
+        print(f"Iteração {iter}: x = {xk:.5f} | f(x) = {f(xk):.5f} | g(x) = {g(x0):.5f} |  h(x) = {h(xk):.5f}")
         if (math.fabs(h(x0)) < eps1) or (math.fabs(xk - x0) < eps2):
             break
         else:
@@ -36,7 +35,6 @@ def newton_raphson(h, dh, x0, eps1, eps2, maxiter):
     return xk, iter, lista
 
 # Parâmetros para o método de Newton-Raphson
-x0 = 2  # Valor inicial (positivo)
 eps1 = 1e-6  # Tolerância para |h(x)|
 eps2 = eps1  # Tolerância para |x_k - x_{k-1}|
 maxiter = 20  # Número máximo de iterações
@@ -50,9 +48,9 @@ x = np.arange(0.1, 10, 0.01)  # Intervalo (visualização)
 # Plotando o gráfico de f(x) e g(x)
 plt.figure()
 plt.grid()
-plt.plot(x, f(x), 'b-', label='f(x) = 1/x')  # Gráfico de f(x)
+plt.plot(x, f(x), 'b--', label='f(x) = 1/x')  # Gráfico de f(x)
 plt.plot(x, g(x), 'g--', label='g(x) = 1 + x^3')  # Gráfico de g(x)
-plt.plot(x,h(x),'b-.',label='h(x) = f(x) - g(x)') # Gráfico de h(x)
+plt.plot(x,h(x),'b-',label='h(x) = f(x) - g(x)') # Gráfico de h(x)
 
 
 # Plotando os pontos gerados pelo método de Newton-Raphson

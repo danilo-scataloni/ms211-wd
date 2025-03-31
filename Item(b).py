@@ -40,7 +40,7 @@ print(df)
 # Criar gráfico da sequência x_n por x_n_+1
 #O gráfico abaixo mostra as evoluções de x_n com as iteracoes tomando como referência o valor conhecido 1/pi
 plt.figure(figsize=(8, 5))
-plt.plot(range(len(valores_x_n)), valores_x_n, marker='o', linestyle='-')
+plt.plot(range(len(valores_x_n)), valores_x_n, marker='o', linestyle='-'))
 plt.axhline(y=reciproco_pi, color='r', linestyle='--', label='1/π (valor real)')
 plt.title("Convergência de x_n para 1/π")
 plt.xlabel("Iteração")
