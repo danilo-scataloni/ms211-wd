@@ -12,12 +12,15 @@ def h(x):
 
 # Derivada de h(x)
 def dh(x):
-    return (-1 / np.power(x, 2)) - 3 * np.power(x, 2)  # Derivada de h(x)
-#Valor Inicial
+    return (-1 / np.power(x, 2)) - 3 * np.power(x, 2)  
+
+# Parâmetros para o método de Newton-Raphson
+eps = 1e-6  # Tolerância para |h(x)|
+maxiter = 20  # Número máximo de iterações#Valor Inicial
 x0 = 2  # Valor inicial (positivo)
 
 # Método de Newton-Raphson para encontrar a interseção
-def newton_raphson(h, dh, x0, eps1, eps2, maxiter):
+def newton_raphson(h, dh, x0, eps, maxiter):
     iter = 0
     lista = [x0]  # Lista para armazenar os pontos
     print("Tabela de Resultados:")
@@ -28,23 +31,17 @@ def newton_raphson(h, dh, x0, eps1, eps2, maxiter):
         lista.append(xk)
         iter += 1
         print(f"Iteração {iter}: x = {xk:.5f} | f(x) = {f(xk):.5f} | g(x) = {g(x0):.5f} |  h(x) = {h(xk):.5f}")
-        if (math.fabs(h(x0)) < eps1) or (math.fabs(xk - x0) < eps2):
+        if (math.fabs(h(x0)) < eps) or (math.fabs(xk - x0) < eps):
             break
         else:
             x0 = xk
     return xk, iter, lista
 
-# Parâmetros para o método de Newton-Raphson
-eps1 = 1e-6  # Tolerância para |h(x)|
-eps2 = eps1  # Tolerância para |x_k - x_{k-1}|
-maxiter = 20  # Número máximo de iterações
-
 # Encontrando a interseção
-xk, iter, lista = newton_raphson(h, dh, x0, eps1, eps2, maxiter)
+xk, iter, lista = newton_raphson(h, dh, x0, eps, maxiter)
 
 # Definindo o intervalo de x para o gráfico
-x = np.arange(0.1, 10, 0.01)  # Intervalo (visualização)
-
+x = np.arange(0.1, 6, 0.01)  # Intervalo (visualização)
 # Plotando o gráfico de f(x) e g(x)
 plt.figure()
 plt.grid()
@@ -66,7 +63,7 @@ plt.plot(xk, f(xk), 'ko', label='Interseção')  # Ponto de interseção
 plt.text(xk, f(xk), f'Interseção: ({xk:.5f}, {f(xk):.5f})', fontsize=12)
 
 # Ajustando os limites dos eixos para melhor visualização
-plt.xlim(0.1, 10)
+plt.xlim(0.1, 6)
 plt.ylim(-10, 10)
 
 # Exibindo o gráfico
