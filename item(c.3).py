@@ -5,11 +5,11 @@ import pandas as pd
 
 # Definindo a função
 def f(x):
-    return np.power(x, 3) - (5 * x)  # Função f(x) = x^3 - 5x
+    return np.power(x, 3) - (2 * x) + 2  # Função f(x) = x^3 - 2x + 2
 
 # Derivada da função f(x)
 def df(x):
-    return 3 * np.power(x, 2) - 5  # Derivada de f(x)
+    return 3 * np.power(x, 2) - 2  # Derivada de f(x)
 
 # Método de Newton-Raphson para encontrar a raiz de f(x)
 def newton_raphson(f, df, x0, eps, maxiter):
@@ -25,33 +25,33 @@ def newton_raphson(f, df, x0, eps, maxiter):
             x0 = xk
     return xk, iter, lista
 
-
 # Parâmetros para o método de Newton-Raphson
-x0 = -1 # Valor inicial 
-eps = 1e-6  
-maxiter = 9  # Número máximo de iterações
+x0 = 5 # Valor inicial 
+eps = 1e-6  # Tolerância
+maxiter = 50 # Número máximo de iterações
 
 # Encontrando a raiz
 xk, iter, lista = newton_raphson(f, df, x0, eps, maxiter)
 
 # Definindo o intervalo de x para o gráfico
-x = np.arange(-5,5, 0.01)  # Intervalo (visualização)
+x = np.arange(-5, 6, 0.01)  # Intervalo (visualização)
 
 # Plotando o gráfico de f(x)
 plt.figure()
 plt.grid()
-plt.plot(x, f(x), 'b-', label='f(x) = x^3 - 5x')  # Gráfico de f(x)
+plt.plot(x, f(x), 'b-', label='f(x) = x^3 - 2x + 2')  # Gráfico de f(x)
 
 # Criar uma tabela com os resultados das iterações
 tabela_resultados = pd.DataFrame({
-    'Iteração':"--------",
-    'x_n  ' : lista,
-    'f(x_n)' : [f(x) for x in lista]
+    'Iteração': range(len(lista)),
+    'x_n': lista,
+    'f(x_n)': [f(x) for x in lista]
 })
 
 # Exibir a tabela no console
 print("\nTabela de Resultados:")
 print(tabela_resultados)
+
 # Exibir os resultados finais
 print(f'\nRaiz encontrada:')
 print(f'x = {xk:.5f}')
@@ -67,16 +67,15 @@ for x_point in lista:
     cont += 1
 
 # Plotando o ponto da raiz
-plt.plot(xk, f(xk), 'ko', label='Raiz encontrada')  # Ponto da raiz
-plt.text(xk, f(xk), f'Raiz: ({xk:.5f}, {f(xk):.5f})', fontsize=12)
+plt.plot(xk, f(xk), 'ko') # Ponto da raiz
 
 # Ajustando os limites dos eixos para melhor visualização
-plt.xlim(-2.5, 2.5)
-plt.ylim(-5, 5)
+plt.xlim(-5, 6)
+plt.ylim(-6, 10)
 
 # Exibindo o gráfico
 plt.xlabel('x')
 plt.ylabel('f(x)')
-plt.title('Método de Newton-Raphson para f(x) = x^3 - 5x')
+plt.title('Método de Newton-Raphson para f(x) = x^3 - 2x + 2')
 plt.legend()
 plt.show()
