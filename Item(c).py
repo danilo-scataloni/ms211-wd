@@ -11,32 +11,31 @@ def df(x):
     return 1 / (3 * np.power(x, 2/3))  # Derivada de f(x)
 
 # Método de Newton-Raphson para encontrar a raiz de f(x)
-def newton_raphson(f, df, x0, eps1, eps2, maxiter):
+def newton_raphson(f, df, x0, eps, maxiter):
     iter = 0
-    lista = [x0]  # Lista para armazenar os pontos
+    lista = [x0]  
     print(f"Iteração {iter}: x = {x0:.5f}, f(x) = {f(x0):.5f}")
     while iter <= maxiter:
         xk = x0 - f(x0) / df(x0)  # Fórmula de Newton-Raphson
         lista.append(xk)
         iter += 1
         print(f"Iteração {iter}: x = {xk:.5f}, f(x) = {f(xk):.5f}")
-        if (math.fabs(f(x0)) < eps1) or (math.fabs(xk - x0) < eps2):
+        if (math.fabs(f(x0)) < eps) or (math.fabs(xk - x0) < eps):
             break
         else:
             x0 = xk
     return xk, iter, lista
 
 # Parâmetros para o método de Newton-Raphson
-x0 = 2  # Valor inicial (positivo)
-eps1 = 1e-6  # Tolerância para |f(x)|
-eps2 = eps1  # Tolerância para |x_k - x_{k-1}|
+x0 = 0.1  # Valor inicial (positivo)
+eps = 1e-6  
 maxiter = 20  # Número máximo de iterações
 
 # Encontrando a raiz
-xk, iter, lista = newton_raphson(f, df, x0, eps1, eps2, maxiter)
+xk, iter, lista = newton_raphson(f, df, x0, eps, maxiter)
 
 # Definindo o intervalo de x para o gráfico
-x = np.arange(0.1, 10, 0.01)  # Intervalo (visualização)
+x = np.arange(-10, 100, 0.01)  # Intervalo (visualização)
 
 # Calculando a reta tangente no ponto x0
 def reta_tangente(x, x0, f, df):
@@ -63,8 +62,8 @@ plt.plot(xk, f(xk), 'ko', label='Raiz encontrada')  # Ponto da raiz
 plt.text(xk, f(xk), f'Raiz: ({xk:.5f}, {f(xk):.5f})', fontsize=12)
 
 # Ajustando os limites dos eixos para melhor visualização
-plt.xlim(0.1, 10)
-plt.ylim(-1, 2)
+plt.xlim(-1, 20)
+plt.ylim(-2, 5)
 
 # Exibindo o gráfico
 plt.xlabel('x')
